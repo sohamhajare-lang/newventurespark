@@ -31,8 +31,7 @@ Complete event platform for the live startup pitch event in Mumbai (30 Nov – 1
 
 ### 3. Create Neon database
 1. Go to [neon.tech](https://neon.tech) → New Project
-2. Copy the **pooled** connection string → this is `DATABASE_URL`
-3. Copy the **direct / unpooled** connection string → this is `DATABASE_URL_UNPOOLED`
+2. Copy the connection string → this is `DATABASE_URL`
 
 ### 4. Deploy on Vercel
 1. Go to [vercel.com](https://vercel.com) → Add New → Project
@@ -43,7 +42,6 @@ Complete event platform for the live startup pitch event in Mumbai (30 Nov – 1
 | Name | Value | Notes |
 |------|-------|-------|
 | `DATABASE_URL` | (Neon pooled string) | Required |
-| `DATABASE_URL_UNPOOLED` | (Neon direct string) | Required |
 | `AUTH_SECRET` | long random string (≥32 chars) | Required |
 | `NEXT_PUBLIC_APP_URL` | `https://your-project.vercel.app` | Update after first deploy |
 | `RESEND_API_KEY` | `re_...` | Required for emails |

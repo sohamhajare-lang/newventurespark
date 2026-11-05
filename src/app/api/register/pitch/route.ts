@@ -136,8 +136,32 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error("Pitch registration error:", error);
+    const msg = error?.message || String(error);
+    if (msg.includes("Can't reach database") || msg.includes("P1001") || msg.includes("connection")) {
+      return NextResponse.json(
+        { error: "Database not connected. Check DATABASE_URL in Vercel environment variables." },
+        { status: 500 }
+      );
+    }
+    if (msg.includes("does not exist") || msg.includes("P2021") || msg.includes("relation") || msg.includes("table")) {
+      return NextResponse.json(
+        { error: "Database tables missing. Open /setup once to initialize, or run prisma db push." },
+        { status: 500 }
+      );
+    }
+    if (msg.includes("Unique constraint") || msg.includes("P2002")) {
+      return NextResponse.json(
+        { error: "A registration with this email and startup already exists." },
+        { status: 409 }
+      );
+    }
     return NextResponse.json(
-      { error: "Registration failed. Please try again or contact support." },
+      {
+        error:
+          process.env.NODE_ENV === "development"
+            ? `Registration failed: ${msg}`
+            : "Registration failed. Please try again or contact support. If this is a new deploy, visit /setup first.",
+      },
       { status: 500 }
     );
   }
